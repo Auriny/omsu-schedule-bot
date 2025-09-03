@@ -12,7 +12,6 @@ import lombok.Setter;
 @Entity
 @Table(name = "telegram_users")
 public class TelegramUser {
-
     public static final String STATE_AWAITING_GROUP = "AWAITING_GROUP";
     public static final String STATE_REGISTERED = "REGISTERED";
 
