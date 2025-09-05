@@ -26,7 +26,6 @@ public class KeyboardService {
         );
 
         markup.setKeyboard(keyboard);
-
         return markup;
     }
 
@@ -79,12 +78,7 @@ public class KeyboardService {
         InlineKeyboardButton timeButton = new InlineKeyboardButton("⏰ Изменить время");
         timeButton.setCallbackData("change_time");
 
-        markup.setKeyboard(List.of(
-                List.of(dailyButton),
-                List.of(updateButton),
-                List.of(timeButton)
-        ));
-
+        markup.setKeyboard(List.of(List.of(dailyButton), List.of(updateButton), List.of(timeButton)));
         return markup;
     }
 }

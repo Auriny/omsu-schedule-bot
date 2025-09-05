@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class ScheduleService {
-    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    protected static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     private static final Map<Integer, String> LESSON_TIMES = Map.of(
             1, "08:45 - 10:20",
             2, "10:30 - 12:05",
@@ -93,8 +93,7 @@ public class ScheduleService {
 
         for (Lesson newLesson : newLessons.values()) {
             if (!oldLessons.containsKey(newLesson.getId())) {
-                changes.append("✅ *Добавлена пара:*\n")
-                        .append(formatLessonForDiff(newLesson)).append("\n");
+                changes.append("✅ *Добавлена пара:*\n").append(formatLessonForDiff(newLesson)).append("\n");
                 hasChanges = true;
             }
         }

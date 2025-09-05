@@ -15,13 +15,15 @@ import java.time.format.DateTimeFormatter;
 
 @Component
 public class ScheduledTasks {
-
     private final OmsuApiService omsuApiService;
     private final ScheduleService scheduleService;
     private final UserRepository userRepository;
     private final NotificationService notificationService;
 
-    public ScheduledTasks(OmsuApiService omsuApiService, ScheduleService scheduleService, UserRepository userRepository, NotificationService notificationService) {
+    public ScheduledTasks(OmsuApiService omsuApiService,
+                          ScheduleService scheduleService,
+                          UserRepository userRepository,
+                          NotificationService notificationService) {
         this.omsuApiService = omsuApiService;
         this.scheduleService = scheduleService;
         this.userRepository = userRepository;
@@ -64,16 +66,24 @@ public class ScheduledTasks {
 
     private void sendDailyScheduleForUser(TelegramUser user) {
         System.out.println("Проверяю ежедневное расписание для пользователя: " + user.getChatId());
+
         omsuApiService.fetchScheduleForGroup(user.getGroupId()).ifPresent(response -> {
             if (response.isSuccess()) {
-                LocalDate tomorrow = LocalDate.now().plusDays(1);
-                String scheduleMessage = scheduleService.getFormattedScheduleForDate(response.getData(), tomorrow);
+                LocalTime now = LocalTime.now();
+                LocalDate dateToSend;
+
+                if (now.isAfter(LocalTime.of(17, 0)) && now.isBefore(LocalTime.of(23, 59, 59))) {
+                    dateToSend = LocalDate.now().plusDays(1);
+                } else dateToSend = LocalDate.now();
+
+                String scheduleMessage = scheduleService.getFormattedScheduleForDate(response.getData(), dateToSend);
 
                 if (!scheduleMessage.contains("пар нет")) {
                     notificationService.notifyUser(user.getChatId(), scheduleMessage);
                     System.out.println("Отправлено расписание пользователю: " + user.getChatId());
-                } else System.out.println("У пользователя " + user.getChatId() + " на завтра пар нет, уведомление не отправлено.");
+                } else System.out.println("У пользователя " + user.getChatId() + " на выбранный день пар нет, уведомление не отправлено.");
             }
         });
     }
+
 }

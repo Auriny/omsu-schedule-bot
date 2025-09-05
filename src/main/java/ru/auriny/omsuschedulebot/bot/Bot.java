@@ -242,7 +242,11 @@ public class Bot extends TelegramLongPollingBot {
             case "toggle_updates" -> user.setUpdateNotificationEnabled(!user.isUpdateNotificationEnabled());
             case "change_time" -> {
                 userAwaitingTime.put(chatId, true);
-                sendMessage(chatId, "⏰ Теперь введи новое время для оповещений в формате `ЧЧ:ММ`, например: `21:30`.");
+                sendMessage(chatId, """
+                        ⏰ Теперь введи новое время для оповещений в формате `ЧЧ:ММ`, например: `21:30`.
+                        
+                        Если ввести время в диапазоне от `0:00` до `17:00`, бот будет скидывать расписание на текущий день, а с `18:00` - на завтра.
+                        """);
                 return;
             }
         }
