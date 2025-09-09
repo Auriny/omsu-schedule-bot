@@ -10,10 +10,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class OmsuScheduleBotApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(OmsuScheduleBotApplication.class, args);
-
-		new SpringApplicationBuilder(OmsuScheduleBotApplication.class)
-				.sources(OmsuScheduleBotApplication.class)
-				.run(args);
 	}
 
 }
